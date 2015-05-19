@@ -1,51 +1,69 @@
 package ssd.comedyvenue.repository;
 
-import org.springframework.transaction.annotation.Transactional;
-import ssd.comedyvenue.dao.ComedianDAO;
-import ssd.comedyvenue.dao.ComedianDAOImpl;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import ssd.comedyvenue.model.Comedian;
-import org.springframework.stereotype.Service;
+import ssd.comedyvenue.util.ConnectionProvider;
+
+import java.sql.SQLException;
 import java.util.List;
 
-@Service
 public class ComedianRepository implements Repository<Comedian> {
 
-    private ComedianDAO comedianDAO;
+    Dao<Comedian, Integer> comedianDao;
 
     public ComedianRepository(){
+
+        try {
+            this.comedianDao = DaoManager.createDao(ConnectionProvider.getConnection(), Comedian.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setComedianDAO(ComedianDAO comedianDAO){
-        this.comedianDAO = comedianDAO;
+    public void add(Comedian entity){
+
+        try {
+            this.comedianDao.create(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void add(Comedian entity) {
-        this.comedianDAO.addComedian(entity);
+    public void update(Comedian entity){
+
+        try {
+            this.comedianDao.update(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void update(Comedian entity) {
-        this.comedianDAO.updateComedian(entity);
+    public List<Comedian> list(){
+
+        try {
+            return this.comedianDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public List<Comedian> list() {
-        return this.comedianDAO.listComedians();
+    public Comedian getById(int id){
+        try {
+            return this.comedianDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public Comedian getById(int id) {
-        return this.comedianDAO.getComedianById(id);
-    }
+    public void remove(int id){
 
-    @Override
-    @Transactional
-    public void remove(int id) {
-        this.comedianDAO.removeComedian(id);
+        try {
+            this.comedianDao.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

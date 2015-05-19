@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ssd.comedyvenue.setup.Database;
 
 
 public class Main extends Application{
@@ -21,11 +22,13 @@ public class Main extends Application{
 
     public static void main(String[] args){
 
-//        Startup init = new Startup();
+        Database database = new Database();
+
+        database.init();
+
+
 
         launch(args);
-
-
 
     }
 }

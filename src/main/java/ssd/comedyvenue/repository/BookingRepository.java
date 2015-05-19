@@ -1,49 +1,71 @@
 package ssd.comedyvenue.repository;
 
-import org.springframework.transaction.annotation.Transactional;
-import ssd.comedyvenue.dao.BookingDAO;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import ssd.comedyvenue.model.Booking;
-import org.springframework.stereotype.Service;
+import ssd.comedyvenue.util.ConnectionProvider;
+
+import java.sql.SQLException;
 import java.util.List;
 
-@Service
 public class BookingRepository implements Repository<Booking> {
 
-    private BookingDAO bookingDAO;
+    Dao<Booking, Integer> bookingDao;
 
-    public BookingRepository() {}
+    public BookingRepository(){
 
-    public void setBookingDAO(BookingDAO bookingDAO){
-        this.bookingDAO = bookingDAO;
+        try {
+            this.bookingDao = DaoManager.createDao(ConnectionProvider.getConnection(), Booking.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void add(Booking entity) {
-        this.bookingDAO.addBooking(entity);
+    public void add(Booking entity){
+
+        try {
+            this.bookingDao.create(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void update(Booking entity) {
-        this.bookingDAO.updateBooking(entity);
+
+    public void update(Booking entity){
+
+        try {
+            this.bookingDao.update(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public List<Booking> list() {
-        return this.bookingDAO.listBookings();
+    public List<Booking> list(){
+
+        try {
+            return this.bookingDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public Booking getById(int id) {
-        return this.bookingDAO.getBookingById(id);
+    public Booking getById(int id){
+
+        try {
+            return this.bookingDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public void remove(int id) {
-        this.bookingDAO.removeBooking(id);
+    public void remove(int id){
+
+        try {
+            this.bookingDao.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

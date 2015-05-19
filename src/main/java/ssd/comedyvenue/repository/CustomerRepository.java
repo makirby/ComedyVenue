@@ -1,49 +1,70 @@
 package ssd.comedyvenue.repository;
 
-import org.springframework.transaction.annotation.Transactional;
-import ssd.comedyvenue.dao.CustomerDAO;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import ssd.comedyvenue.model.Customer;
-import org.springframework.stereotype.Service;
+import ssd.comedyvenue.util.ConnectionProvider;
+
+import java.sql.SQLException;
 import java.util.List;
 
-@Service
 public class CustomerRepository implements Repository<Customer> {
 
-    private CustomerDAO customerDAO;
+    Dao<Customer, Integer> customerDao;
 
-    public CustomerRepository(){}
+    public CustomerRepository(){
 
-    public void setCustomerDAO(CustomerDAO customerDAO){
-        this.customerDAO = customerDAO;
+        try {
+            this.customerDao = DaoManager.createDao(ConnectionProvider.getConnection(), Customer.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void add(Customer entity) {
-        this.customerDAO.addCustomer(entity);
+    public void add(Customer entity){
+
+        try {
+            this.customerDao.create(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void update(Customer entity) {
-        this.customerDAO.updateCustomer(entity);
+    public void update(Customer entity){
+
+        try {
+            this.customerDao.update(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public List<Customer> list() {
-        return this.customerDAO.listCustomers();
+    public List<Customer> list(){
+
+        try {
+            return this.customerDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public Customer getById(int id) {
-        return this.customerDAO.getCustomerById(id);
+    public Customer getById(int id){
+
+        try {
+            return this.customerDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public void remove(int id) {
-        this.customerDAO.removeCustomer(id);
+    public void remove(int id){
+
+        try {
+            this.customerDao.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

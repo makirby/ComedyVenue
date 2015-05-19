@@ -1,22 +1,30 @@
 package ssd.comedyvenue.model;
 
-import javax.persistence.*;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-@Entity
-@Table(name = "Feedback")
+@DatabaseTable(tableName = "feedback")
 public class Feedback {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
+    @DatabaseField(generatedId = true)
     private int id;
-    @OneToOne(fetch = FetchType.LAZY)
+    @DatabaseField(canBeNull = false, foreign = true)
     private Customer customer;
-    @OneToOne(fetch = FetchType.LAZY)
-
+    @DatabaseField(canBeNull = false, foreign = true)
     private Booking booking;
+    @DatabaseField
     private String comments;
+    @DatabaseField
     private Integer rating;
+
+    public Feedback() {}
+
+    public Feedback(Customer customer, Booking booking, String comments, Integer rating) {
+        this.customer = customer;
+        this.booking = booking;
+        this.comments = comments;
+        this.rating = rating;
+    }
 
     public int getId() {
         return id;

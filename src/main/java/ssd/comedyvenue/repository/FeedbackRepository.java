@@ -1,49 +1,72 @@
 package ssd.comedyvenue.repository;
 
-import org.springframework.transaction.annotation.Transactional;
-import ssd.comedyvenue.dao.FeedbackDAO;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import ssd.comedyvenue.model.Feedback;
-import org.springframework.stereotype.Service;
+import ssd.comedyvenue.util.ConnectionProvider;
+
+import java.sql.SQLException;
 import java.util.List;
 
-@Service
 public class FeedbackRepository implements Repository<Feedback> {
 
-    private FeedbackDAO feedbackDAO;
+    Dao<Feedback, Integer> feedbackDao;
 
-    public FeedbackRepository(){}
+    public FeedbackRepository(){
 
-    public void setFeedbackDAO(FeedbackDAO feedbackDAO){
-        this.feedbackDAO = feedbackDAO;
+        try {
+            this.feedbackDao = DaoManager.createDao(ConnectionProvider.getConnection(), Feedback.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void add(Feedback entity) {
-        this.feedbackDAO.addFeedback(entity);
+    public void add(Feedback entity){
+
+        try {
+            this.feedbackDao.create(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void update(Feedback entity) {
-        this.feedbackDAO.updateFeedback(entity);
+
+    public void update(Feedback entity){
+
+        try {
+            this.feedbackDao.update(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public List<Feedback> list() {
-        return this.feedbackDAO.listFeedback();
+    public List<Feedback> list(){
+
+        try {
+            return this.feedbackDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public Feedback getById(int id) {
-        return this.feedbackDAO.getFeedbackById(id);
+
+    public Feedback getById(int id){
+
+        try {
+            return this.feedbackDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public void remove(int id) {
-        this.feedbackDAO.removeFeedback(id);
+    public void remove(int id){
+
+        try {
+            this.feedbackDao.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

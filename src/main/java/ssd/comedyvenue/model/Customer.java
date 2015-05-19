@@ -1,18 +1,19 @@
 package ssd.comedyvenue.model;
 
-import javax.persistence.*;
 import java.util.Date;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-@Entity
-@Table(name = "Customer")
+@DatabaseTable(tableName = "customer")
 public class Customer {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
+    @DatabaseField(generatedId = true)
     private Integer id;
+    @DatabaseField
     private String name;
+    @DatabaseField
     private Date dob;
+    @DatabaseField
     private String contact;
 
     public Customer(){}

@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface Repository<T> {
 
-    public void add(T entity);
-    public void update(T entity);
-    public List<T> list();
-    public T getById(int id);
-    public void remove(int id);
+    void add(T entity);
+    void update(T entity);
+    List<T> list();
+    T getById(int id);
+    void remove(int id);
 }
