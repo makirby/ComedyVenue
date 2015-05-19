@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane fx:controller="ssd.comedyvenue.main.SplashController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml" >
+   <children>
+      <TabPane prefHeight="639.0" prefWidth="1011.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="ORGANISER">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="785.0">
+                     <children>
+                        <TableView layoutX="23.0" layoutY="24.0" prefHeight="300.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn prefWidth="199.0" text="EVENTS" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="322.0" layoutY="295.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="231.0" text="UPDATE" />
+                        <Label layoutX="333.0" layoutY="31.0" text="NAME" />
+                        <Label layoutX="300.0" layoutY="107.0" text="COMEDIAN" />
+                        <Label layoutX="335.0" layoutY="70.0" text="DATE" />
+                        <Label layoutX="314.0" layoutY="151.0" text="NUMBER" />
+                        <Label layoutX="315.0" layoutY="199.0" text="MIN AGE" />
+                        <TextField layoutX="386.0" layoutY="26.0" />
+                        <TextField layoutX="386.0" layoutY="65.0" />
+                        <TextField layoutX="386.0" layoutY="102.0" />
+                        <TextField layoutX="386.0" layoutY="146.0" />
+                        <TextField layoutX="386.0" layoutY="194.0" />
+                        <Separator layoutX="24.0" layoutY="334.0" prefHeight="22.0" prefWidth="733.0" />
+                        <CheckBox layoutX="322.0" layoutY="252.0" mnemonicParsing="false" text="NEW EVENT" />
+                        <TableView layoutX="575.0" layoutY="24.0" prefHeight="203.0" prefWidth="186.0">
+                          <columns>
+                            <TableColumn prefWidth="185.0" text="FEEDBACK" />
+                          </columns>
+                        </TableView>
+                        <TableView layoutX="23.0" layoutY="364.0" prefHeight="224.0" prefWidth="199.0">
+                          <columns>
+                            <TableColumn prefWidth="197.99999046325684" text="COMEDIANS" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="331.0" layoutY="373.0" text="NAME" />
+                        <Label layoutX="290.0" layoutY="425.0" text="STAGE NAME" />
+                        <Label layoutX="316.0" layoutY="478.0" text="NUMBER" />
+                        <Button layoutX="330.0" layoutY="561.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="228.0" text="UPDATE" />
+                        <CheckBox layoutX="326.0" layoutY="528.0" mnemonicParsing="false" text="NEW COMEDIAN" />
+                        <TextField layoutX="393.0" layoutY="368.0" />
+                        <TextField layoutX="391.0" layoutY="421.0" prefHeight="26.0" prefWidth="164.0" />
+                        <TextField layoutX="392.0" layoutY="473.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="BOOKING CLERK">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="23.0" layoutY="28.0" prefHeight="539.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn prefWidth="198.72746658325195" text="EVENTS" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="338.0" layoutY="29.0" text="DETAILS" />
+                        <Label layoutX="340.0" layoutY="59.0" text="NAME :" />
+                        <Label layoutX="343.0" layoutY="98.0" text="DATE :" />
+                        <Label layoutX="307.0" layoutY="130.0" text="COMEDIAN :" />
+                        <Label layoutX="322.0" layoutY="167.0" text="NUMBER :" />
+                        <Label layoutX="324.0" layoutY="202.0" text="MIN AGE :" />
+                        <Label layoutX="400.0" layoutY="59.0" text="EVENT NAME" />
+                        <Label layoutX="402.0" layoutY="98.0" text="EVENT DATE" />
+                        <Label layoutX="404.0" layoutY="130.0" text="EVENT COMEDIAN" />
+                        <Label layoutX="404.0" layoutY="167.0" text="EVENT NUMBER" />
+                        <Label layoutX="406.0" layoutY="202.0" text="EVENT MIN AGE" />
+                        <TableView layoutX="320.0" layoutY="261.0" prefHeight="306.0" prefWidth="200.0">
+                          <columns>
+                            <TableColumn prefWidth="199.0" text="BOOKINGS" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="593.0" layoutY="277.0" text="NAME" />
+                        <Label layoutX="592.0" layoutY="333.0" text="SEATS" />
+                        <Label layoutX="573.0" layoutY="385.0" text="NUMBER" />
+                        <TextField layoutX="676.0" layoutY="272.0" />
+                        <TextField layoutX="676.0" layoutY="331.0" />
+                        <TextField layoutX="676.0" layoutY="381.0" />
+                        <CheckBox layoutX="596.0" layoutY="450.0" mnemonicParsing="false" text="NEW BOOKING" />
+                        <Button layoutX="600.0" layoutY="500.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="244.0" text="UPDATE" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</Pane>
