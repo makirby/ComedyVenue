@@ -3,7 +3,6 @@ package com.booking.domain;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "booking")
 public class Booking {
 
     private int id;
