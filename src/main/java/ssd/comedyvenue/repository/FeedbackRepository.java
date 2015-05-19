@@ -11,6 +11,8 @@ public class FeedbackRepository implements Repository<Feedback> {
 
     private FeedbackDAO feedbackDAO;
 
+    public FeedbackRepository(){}
+
     public void setFeedbackDAO(FeedbackDAO feedbackDAO){
         this.feedbackDAO = feedbackDAO;
     }

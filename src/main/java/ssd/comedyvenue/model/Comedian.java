@@ -12,14 +12,14 @@ public class Comedian {
     private Integer id;
     private String name;
     private String stageName;
-    private String contactNumber;
+    private String contact;
 
     public Comedian(){}
 
-    public Comedian(String name, String stageName, String contactNumber){
+    public Comedian(String name, String stageName, String contact){
         this.name = name;
         this.stageName = stageName;
-        this.contactNumber = contactNumber;
+        this.contact = contact;
     }
 
     public Integer getId() {
@@ -47,11 +47,11 @@ public class Comedian {
     }
 
     public String getContactNumber() {
-        return contactNumber;
+        return contact;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setContactNumber(String contact) {
+        this.contact = contact;
     }
 
 }

@@ -11,6 +11,8 @@ public class EventRepository implements Repository<Event> {
 
     private EventDAO eventDAO;
 
+    public EventRepository(){}
+
     public void setEventDAO(EventDAO eventDAO){
         this.eventDAO = eventDAO;
     }

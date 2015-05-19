@@ -13,12 +13,14 @@ public class Customer {
     private Integer id;
     private String name;
     private Date dob;
+    private String contact;
 
     public Customer(){}
 
-    public Customer(String name, Date dob){
+    public Customer(String name, Date dob, String contact){
         this.name = name;
         this.dob = dob;
+        this.contact = contact;
     }
 
     public Integer getId() {
@@ -43,5 +45,13 @@ public class Customer {
 
     public void setDob(Date dob) {
         this.dob = dob;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
     }
 }

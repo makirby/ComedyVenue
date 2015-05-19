@@ -3,12 +3,10 @@ package ssd.comedyvenue.dao;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Repository;
 import ssd.comedyvenue.model.Event;
 
 import java.util.List;
 
-@Repository
 public class EventDAOImpl implements EventDAO {
 
     private SessionFactory sessionFactory;

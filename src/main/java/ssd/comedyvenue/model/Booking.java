@@ -10,9 +10,12 @@ public class Booking {
     @Column(name = "id")
     @GeneratedValue
     private int id;
+    @OneToOne(fetch = FetchType.LAZY)
     private Customer customer;
     private Integer seats;
+    @OneToOne(fetch = FetchType.LAZY)
     private Event event;
+    @OneToOne(fetch = FetchType.LAZY)
     private Feedback feedback;
     private Boolean canceled;
 
@@ -33,7 +36,6 @@ public class Booking {
         this.id = id;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Customer")
     public Customer getCustomer() {
         return customer;
     }
@@ -50,7 +52,6 @@ public class Booking {
         this.seats = seats;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Event")
     public Event getEvent() {
         return event;
     }
@@ -59,7 +60,6 @@ public class Booking {
         this.event = event;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Feedback")
     public Feedback getFeedback() {
         return feedback;
     }

@@ -2,6 +2,7 @@ package ssd.comedyvenue.repository;
 
 import org.springframework.transaction.annotation.Transactional;
 import ssd.comedyvenue.dao.ComedianDAO;
+import ssd.comedyvenue.dao.ComedianDAOImpl;
 import ssd.comedyvenue.model.Comedian;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -10,6 +11,9 @@ import java.util.List;
 public class ComedianRepository implements Repository<Comedian> {
 
     private ComedianDAO comedianDAO;
+
+    public ComedianRepository(){
+    }
 
     public void setComedianDAO(ComedianDAO comedianDAO){
         this.comedianDAO = comedianDAO;

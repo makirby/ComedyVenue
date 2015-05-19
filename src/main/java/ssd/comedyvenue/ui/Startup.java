@@ -1,29 +1,29 @@
 package ssd.comedyvenue.ui;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-import ssd.comedyvenue.model.Booking;
+import org.springframework.beans.factory.annotation.Configurable;
+import ssd.comedyvenue.model.Comedian;
+import ssd.comedyvenue.repository.ComedianRepository;
 import ssd.comedyvenue.repository.Repository;
 
-import java.util.List;
-
-@Component
+@Configurable
 public class Startup {
 
-    private Repository<Booking> bookingRepository;
+    private Repository<Comedian> comedianRepository;
 
-    @Autowired(required=true)
-    @Qualifier(value="bookingService")
-    public void setPersonService(Repository bookingRepo) {
-        this.bookingRepository = bookingRepo;
+    public Startup(){}
+
+    public void setComedianRepository(Repository<Comedian> comedianRepository) {
+        this.comedianRepository = comedianRepository;
     }
 
-    
-//    public void BootstrapUi(){
-//
-//        List<Booking> bookingList =  bookingRepository.list();
-//
-//    }
+    public void createComedian(){
+
+        comedianRepository = new ComedianRepository();
+
+        Comedian comedian = new Comedian("Jim", "Clown Man", "0785312331");
+
+        this.comedianRepository.add(comedian);
+
+    }
 
 }

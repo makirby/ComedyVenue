@@ -10,9 +10,13 @@ public class Feedback {
     @Column(name = "id")
     @GeneratedValue
     private int id;
+    @OneToOne(fetch = FetchType.LAZY)
     private Customer customer;
+    @OneToOne(fetch = FetchType.LAZY)
+
     private Booking booking;
     private String comments;
+    private Integer rating;
 
     public int getId() {
         return id;
@@ -22,7 +26,6 @@ public class Feedback {
         this.id = id;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Customer")
     public Customer getCustomer() {
         return customer;
     }
@@ -31,7 +34,6 @@ public class Feedback {
         this.customer = customer;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Booking")
     public Booking getBooking() {
         return booking;
     }
@@ -46,5 +48,13 @@ public class Feedback {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 }

@@ -11,6 +11,8 @@ public class CustomerRepository implements Repository<Customer> {
 
     private CustomerDAO customerDAO;
 
+    public CustomerRepository(){}
+
     public void setCustomerDAO(CustomerDAO customerDAO){
         this.customerDAO = customerDAO;
     }

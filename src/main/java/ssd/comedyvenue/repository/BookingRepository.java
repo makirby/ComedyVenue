@@ -11,6 +11,8 @@ public class BookingRepository implements Repository<Booking> {
 
     private BookingDAO bookingDAO;
 
+    public BookingRepository() {}
+
     public void setBookingDAO(BookingDAO bookingDAO){
         this.bookingDAO = bookingDAO;
     }

@@ -13,11 +13,14 @@ public class Event implements java.io.Serializable{
     @Column(name = "id")
     @GeneratedValue
     private Integer id;
+    @OneToOne(fetch = FetchType.LAZY)
     private Comedian comedian;
     private String name;
-    private Set<Booking> bookings = new HashSet<Booking>();
     private Date date;
     private Integer capacity;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private Set<Booking> bookings = new HashSet<Booking>();
 
     public Event(){}
 
@@ -53,7 +56,6 @@ public class Event implements java.io.Serializable{
         this.name = name;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "Booking")
     public Set<Booking> getBookings(){
         return this.bookings;
     }
