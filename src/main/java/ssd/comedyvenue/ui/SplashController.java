@@ -2,9 +2,10 @@ package ssd.comedyvenue.ui;
 
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.event.EventHandler;;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -12,20 +13,26 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import org.joda.time.DateTime;
 import ssd.comedyvenue.model.*;
 import ssd.comedyvenue.model.Event;
-import ssd.comedyvenue.repository.EventRepository;
-import ssd.comedyvenue.repository.Repository;
+import ssd.comedyvenue.repository.*;
 
-import java.awt.*;
-import java.awt.List;
-import java.util.*;
 
 import javafx.collections.ObservableList;
 
 import javax.swing.event.ChangeEvent;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class SplashController{
 
@@ -33,16 +40,16 @@ public class SplashController{
 //    @FXML public TableView eventsList;
 //    @FXML public TableColumn eventNameCol;
 
-    @FXML public ListView EventsList;
+
 
     @FXML public TextField eventName;
-    @FXML public TextField eventDate;
+    @FXML public DatePicker eventDate;
     @FXML public TextField eventCap;
-    @FXML public TextField eventComedian;
     @FXML public TextField eventMinAge;
     @FXML public CheckBox newEvent;
     @FXML public TableView eventFeedback;
     @FXML public Label eventAudStats;
+    @FXML public ComboBox eventComedianCombo;
     @FXML public Button updateEventButton;
 
     @FXML public TextField comedianName;
@@ -52,13 +59,39 @@ public class SplashController{
     @FXML public Button updateComedianButton;
     @FXML public Tab organiserTab;
 
+    @FXML public ListView EventsList;
+
+    @FXML public void handleMouseClick(MouseEvent arg0) {
+
+        Event event = new Event();
+
+        event = (Event) EventsList.getSelectionModel().getSelectedItem();
+
+        DateTime date = new DateTime(event.getDate());
+
+        eventName.setText(event.getName());
+        eventDate.setValue(LocalDate.of(date.getYear(),date.getMonthOfYear(),
+            date.getDayOfMonth()));
+        eventCap.setText(event.getCapacity().toString());
+        eventMinAge.setText(event.getRestriction().toString());
+        eventComedianCombo.getSelectionModel().select(event.getComedian().getName());
+
+
+    }
+
 
     public SplashController(){}
 
     // access to event
-    private Repository<Event> eventRepository;
+    private Repository<Event> eventRepository = new EventRepository();
     // access comedians
-    private Repository<Comedian> comedianRepository;
+    private Repository<Comedian> comedianRepository = new ComedianRepository();
+    //access customer
+    private  Repository<Customer> customerRepository = new CustomerRepository();
+    //access Bookings
+    private  Repository<Booking> bookingRepository = new BookingRepository();
+    //access Feedback
+    private  Repository<Feedback> feedbackRepoistory = new FeedbackRepository();
 
 
 
@@ -66,52 +99,54 @@ public class SplashController{
 
     public void refreshEvents(ActionEvent actionEvent) {
 
-//        ObservableList<Event> events = (ObservableList<Event>) eventRepository.list();
+        List<Event> eventList = eventRepository.list();
 
-//        eventsList.getItems().setAll(events);
-//        eventsList.setItems(events);
+        ObservableList<Event> events = FXCollections.observableArrayList(eventList);
 
-
-//
+        EventsList.setItems(events);
 
 
-//        EventsList.setItems(items);
+        List<Comedian> comedianList = comedianRepository.list();
+
+        ObservableList<Comedian> comedians = FXCollections.observableArrayList(comedianList);
+
+        eventComedianCombo.setItems(comedians);
     }
 
 
-    /// needs table cell click event
 
 
 
 
-    public void updateEvent(ActionEvent actionEvent) {
+    public void updateEvent(ActionEvent actionEvent) throws ParseException {
 
         eventRepository = new EventRepository();
+
+        Event event = new Event();
+
+        if(!newEvent.isSelected()) {
+            event = (Event) EventsList.getSelectionModel().getSelectedItem();
+        }
+
+            event.setName(eventName.getText());
+
+            DateTime date = new DateTime(eventDate.getValue());
+            event.setDate(date.toDate());
+
+            event.setCapacity(Integer.parseInt(eventCap.getText()));
+            event.setCapacity(Integer.parseInt(eventCap.getText()));
+            event.setComedian((Comedian) eventComedianCombo.getSelectionModel().getSelectedItem());
+
 
         if(newEvent.isSelected()){
 
             /// add event
-            Event event = new Event();
-
-            event.setName(eventName.getText());
-//            event.setDate(Date(eventDate.getText()));
-            event.setCapacity(Integer.parseInt(eventCap.getText()));
-//            event.setComedian( get comedian );
-
             eventRepository.add(event);
 
         }else{
 
             /// update event
-
-            // Event event = get event from table
-
-//            event.setName(eventName.getText());
-//            event.setDate(Date(eventDate.getText()));
-//            event.setCapacity(Integer.parseInt(eventCap.getText()));
-//            event.setComedian( get comedian );
-
-//            eventRepository.update(event);
+            eventRepository.update(event);
         }
 
     }

@@ -17,13 +17,11 @@
                      <children>
                         <Button fx:id="updateEventButton" layoutX="322.0" layoutY="295.0" mnemonicParsing="false" onAction="#updateEvent" prefHeight="26.0" prefWidth="231.0" text="UPDATE" />
                         <Label layoutX="333.0" layoutY="31.0" text="NAME" />
-                        <Label layoutX="300.0" layoutY="107.0" text="COMEDIAN" />
+                        <Label layoutX="304.0" layoutY="107.0" text="COMEDIAN" />
                         <Label layoutX="335.0" layoutY="70.0" text="DATE" />
                         <Label layoutX="314.0" layoutY="151.0" text="CAPACITY" />
                         <Label layoutX="315.0" layoutY="199.0" text="MIN AGE" />
                         <TextField id="eventName" fx:id="eventName" layoutX="386.0" layoutY="26.0" />
-                        <TextField fx:id="eventDate" layoutX="386.0" layoutY="65.0" />
-                        <TextField fx:id="eventComedian" layoutX="386.0" layoutY="102.0" />
                         <TextField fx:id="eventCap" layoutX="386.0" layoutY="146.0" />
                         <TextField fx:id="eventMinAge" layoutX="386.0" layoutY="194.0" />
                         <Separator layoutX="24.0" layoutY="334.0" prefHeight="22.0" prefWidth="733.0" />
@@ -48,8 +46,10 @@
                         <TextField fx:id="comedianNumber" layoutX="392.0" layoutY="473.0" />
                         <Label layoutX="798.0" layoutY="39.0" text="AUDIENCE STATS" />
                         <Label fx:id="eventAudStats" layoutX="810.0" layoutY="78.0" text="EVENT AUD STATS" />
-                        <ListView fx:id="EventsList" layoutX="48.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" />
-                        <Button layoutX="48.0" layoutY="270.0" mnemonicParsing="false" onAction="#refreshEvents" text="refresh" />
+                        <ListView fx:id="EventsList" layoutX="23.0" layoutY="59.0" onMouseClicked="#handleMouseClick" prefHeight="265.0" prefWidth="265.0" />
+                        <Button layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#refreshEvents" text="refresh organiser tab" />
+                        <ComboBox fx:id="eventComedianCombo" layoutX="388.0" layoutY="102.0" prefHeight="26.0" prefWidth="159.0" />
+                        <DatePicker fx:id="eventDate" layoutX="373.0" layoutY="65.0" />
                      </children>
                   </AnchorPane>
             </content>
