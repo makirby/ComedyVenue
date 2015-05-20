@@ -5,6 +5,7 @@ import com.j256.ormlite.support.ConnectionSource;
 
 public class ConnectionProvider {
 
+    // jdbc:h2:~/data/test
     private static final String databaseUrl = "jdbc:h2:mem:test";
 
     //Provides a connection to the specified database
