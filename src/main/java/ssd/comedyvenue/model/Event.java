@@ -20,6 +20,8 @@ public class Event {
     @DatabaseField
     private Date date;
     @DatabaseField
+    private Integer restriction;
+    @DatabaseField
     private Integer capacity;
 
     @ForeignCollectionField
@@ -27,10 +29,11 @@ public class Event {
 
     public Event(){}
 
-    public Event(Comedian comedian, String name, Integer capacity, Date date){
+    public Event(Comedian comedian, String name, Integer capacity, Date date, Integer restriction){
         this.comedian = comedian;
         this.name = name;
         this.capacity = capacity;
+        this.restriction = restriction;
         this.date = date;
     }
 
@@ -72,6 +75,14 @@ public class Event {
 
     public void setDate(Date date){
         this.date = date;
+    }
+
+    public Integer getRestriction() {
+        return restriction;
+    }
+
+    public void setRestriction(Integer restriction) {
+        this.restriction = restriction;
     }
 
     public Integer getCapacity(){
