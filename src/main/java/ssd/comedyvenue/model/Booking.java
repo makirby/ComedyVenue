@@ -16,6 +16,8 @@ public class Booking {
     private Event event;
     @DatabaseField
     private Boolean canceled;
+    @DatabaseField
+    private Boolean ageConfirmed;
 
     public Booking(){}
 
@@ -66,4 +68,11 @@ public class Booking {
         this.canceled = canceled;
     }
 
+    public Boolean getAgeConfirmed() {
+        return ageConfirmed;
+    }
+
+    public void setAgeConfirmed(Boolean ageConfirmed) {
+        this.ageConfirmed = ageConfirmed;
+    }
 }

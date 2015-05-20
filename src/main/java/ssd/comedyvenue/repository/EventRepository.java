@@ -49,7 +49,6 @@ public class EventRepository implements Repository<Event> {
         }
     }
 
-
     public Event getById(int id){
 
         try {

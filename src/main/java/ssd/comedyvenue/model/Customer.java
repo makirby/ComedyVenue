@@ -12,15 +12,12 @@ public class Customer {
     @DatabaseField
     private String name;
     @DatabaseField
-    private Date dob;
-    @DatabaseField
     private String contact;
 
     public Customer(){}
 
-    public Customer(String name, Date dob, String contact){
+    public Customer(String name, String contact){
         this.name = name;
-        this.dob = dob;
         this.contact = contact;
     }
 
@@ -40,13 +37,6 @@ public class Customer {
         this.name = name;
     }
 
-    public Date getDob() {
-        return dob;
-    }
-
-    public void setDob(Date dob) {
-        this.dob = dob;
-    }
 
     public String getContact() {
         return contact;
