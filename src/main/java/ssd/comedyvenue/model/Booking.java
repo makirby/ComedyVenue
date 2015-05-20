@@ -14,8 +14,6 @@ public class Booking {
     private Integer seats;
     @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private Event event;
-    @DatabaseField(foreign = true)
-    private Feedback feedback;
     @DatabaseField
     private Boolean canceled;
 
@@ -59,13 +57,6 @@ public class Booking {
         this.event = event;
     }
 
-    public Feedback getFeedback() {
-        return feedback;
-    }
-
-    public void setFeedback(Feedback feedback) {
-        this.feedback = feedback;
-    }
 
     public Boolean getCanceled() {
         return canceled;

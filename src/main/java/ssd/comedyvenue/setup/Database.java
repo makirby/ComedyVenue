@@ -124,11 +124,10 @@ public class Database {
     //creates a selection of feedback in the database
     private void createFeedback(){
 
-        Booking booking1 = bookingRepo.getById(2);
-        Booking booking2 = bookingRepo.getById(3);
+        Event event1 = eventRepo.getById(4);
 
-        Feedback feedback1 = new Feedback(booking1, "Wow what a great show", 4);
-        Feedback feedback2 = new Feedback(booking2, "It was alright", 3);
+        Feedback feedback1 = new Feedback(event1, "Wow what a great show", 4);
+        Feedback feedback2 = new Feedback(event1, "It was alright", 3);
 
         feedbackRepo.add(feedback1);
         feedbackRepo.add(feedback2);
