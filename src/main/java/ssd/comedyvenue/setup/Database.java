@@ -13,8 +13,6 @@ public class Database {
     Repository<Event> eventRepo = new EventRepository();
     Repository<Booking> bookingRepo = new BookingRepository();
 
-
-
     /* Creates database tables and seeds with a set of information */
     public void init(){
 
@@ -31,6 +29,12 @@ public class Database {
             //seed events
             createEvents();
 
+            //seed bookings
+            createBookings();
+
+            //seed feedback
+            createFeedback();
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -38,11 +42,11 @@ public class Database {
 
     private void createTables() throws Exception{
         //Create tables in DB
-        TableUtils.createTable(ConnectionProvider.getConnection(), Booking.class);
-        TableUtils.createTable(ConnectionProvider.getConnection(), Comedian.class);
-        TableUtils.createTable(ConnectionProvider.getConnection(), Customer.class);
-        TableUtils.createTable(ConnectionProvider.getConnection(), Event.class);
-        TableUtils.createTable(ConnectionProvider.getConnection(), Feedback.class);
+        TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Booking.class);
+        TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Comedian.class);
+        TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Customer.class);
+        TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Event.class);
+        TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Feedback.class);
     }
 
     private void createCustomers(){
@@ -83,15 +87,39 @@ public class Database {
     private void createEvents(){
 
         DateTime now = DateTime.now();
-        Comedian comedian = comedianRepo.list().get(1);
+        Comedian comedian1 = comedianRepo.list().get(1);
+        Comedian comedian2 = comedianRepo.list().get(2);
 
-        Event event1 = new Event(comedian, "The Big Show", 30, now.plusDays(10).toDate(), 21);
-        Event event2 = new Event(comedian, "The Bigger Show", 30, now.plusDays(15).toDate(), 21);
-        Event event3 = new Event(comedian, "A Small Show", 150, now.plusDays(30).toDate(), 21);
+        Event event1 = new Event(comedian1, "The Big Show", 30, now.plusDays(10).toDate(), 21);
+        Event event2 = new Event(comedian1, "The Bigger Show", 30, now.plusDays(15).toDate(), 21);
+        Event event3 = new Event(comedian1, "A Small Show", 150, now.plusDays(30).toDate(), 21);
+        Event event4 = new Event(comedian2, "Another Show", 120, now.minusDays(10).toDate(), 16);
 
         eventRepo.add(event1);
         eventRepo.add(event2);
         eventRepo.add(event3);
+        eventRepo.add(event4);
+
+    }
+
+    private void createBookings(){
+
+        Customer customer1 = customerRepo.list().get(3);
+        Event event1 = eventRepo.list().get(1);
+        Event event2 = eventRepo.list().get(3);
+
+        Booking booking1 = new Booking(customer1, 1, event1);
+        Booking booking2 = new Booking(customer1, 3, event2);
+
+        bookingRepo.add(booking1);
+        bookingRepo.add(booking2);
+
+    }
+
+    private void createFeedback(){
+
+
+
 
     }
 }

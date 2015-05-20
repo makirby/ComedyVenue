@@ -26,8 +26,6 @@ public class Main extends Application{
 
         database.init();
 
-
-
         launch(args);
 
     }
