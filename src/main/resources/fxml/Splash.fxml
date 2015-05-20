@@ -6,22 +6,15 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 
-<Pane fx:controller="ssd.comedyvenue.ui.SplashController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml" >
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="637.0" prefWidth="1011.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ssd.comedyvenue.ui.SplashController">
 
    <children>
       <TabPane prefHeight="639.0" prefWidth="1011.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="organiserTab" onSelectionChanged="#refreshOrganiser" text="ORGANISER">
+          <Tab fx:id="organiserTab" text="ORGANISER">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="785.0">
                      <children>
-                        <TableView fx:id="eventsList" layoutX="23.0" layoutY="24.0" prefHeight="300.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn fx:id="eventNameCol" prefWidth="199.0" text="EVENTS">
-                              <cellValueFactory> <PropertyValueFactory property="name" /> </cellValueFactory>
-                            </TableColumn>
-                          </columns>
-                        </TableView>
                         <Button fx:id="updateEventButton" layoutX="322.0" layoutY="295.0" mnemonicParsing="false" onAction="#updateEvent" prefHeight="26.0" prefWidth="231.0" text="UPDATE" />
                         <Label layoutX="333.0" layoutY="31.0" text="NAME" />
                         <Label layoutX="300.0" layoutY="107.0" text="COMEDIAN" />
@@ -49,12 +42,14 @@
                         <Label layoutX="290.0" layoutY="425.0" text="STAGE NAME" />
                         <Label layoutX="316.0" layoutY="478.0" text="NUMBER" />
                         <Button fx:id="updateComedianButton" layoutX="330.0" layoutY="561.0" mnemonicParsing="false" onAction="#updateComedian" prefHeight="26.0" prefWidth="228.0" text="UPDATE" />
-                        <CheckBox layoutX="326.0" layoutY="528.0" mnemonicParsing="false" text="NEW COMEDIAN" />
+                        <CheckBox fx:id="newComedian" layoutX="326.0" layoutY="528.0" mnemonicParsing="false" text="NEW COMEDIAN" />
                         <TextField fx:id="comedianName" layoutX="393.0" layoutY="368.0" />
                         <TextField fx:id="stageName" layoutX="391.0" layoutY="421.0" prefHeight="26.0" prefWidth="164.0" />
                         <TextField fx:id="comedianNumber" layoutX="392.0" layoutY="473.0" />
                         <Label layoutX="798.0" layoutY="39.0" text="AUDIENCE STATS" />
                         <Label fx:id="eventAudStats" layoutX="810.0" layoutY="78.0" text="EVENT AUD STATS" />
+                        <ListView fx:id="EventsList" layoutX="48.0" layoutY="59.0" prefHeight="200.0" prefWidth="200.0" />
+                        <Button layoutX="48.0" layoutY="270.0" mnemonicParsing="false" onAction="#refreshEvents" text="refresh" />
                      </children>
                   </AnchorPane>
             </content>
