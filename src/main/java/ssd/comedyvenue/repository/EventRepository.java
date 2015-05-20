@@ -1,47 +1,71 @@
 package ssd.comedyvenue.repository;
 
-import org.springframework.transaction.annotation.Transactional;
-import ssd.comedyvenue.dao.EventDAO;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
 import ssd.comedyvenue.model.Event;
-import org.springframework.stereotype.Service;
+import ssd.comedyvenue.util.ConnectionProvider;
+
+import java.sql.SQLException;
 import java.util.List;
 
-@Service
 public class EventRepository implements Repository<Event> {
 
-    private EventDAO eventDAO;
+    Dao<Event, Integer> eventDao;
 
-    public void setEventDAO(EventDAO eventDAO){
-        this.eventDAO = eventDAO;
+    public EventRepository(){
+
+        try {
+            this.eventDao = DaoManager.createDao(ConnectionProvider.getConnection(), Event.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void add(Event entity) {
-        this.eventDAO.addEvent(entity);
+    public void add(Event entity){
+
+        try {
+            this.eventDao.create(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public void update(Event entity) {
-        this.eventDAO.updateEvent(entity);
+    public void update(Event entity){
+
+        try {
+            this.eventDao.update(entity);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    @Override
-    @Transactional
-    public List<Event> list() {
-        return this.eventDAO.listEvents();
+    public List<Event> list(){
+
+        try {
+            return this.eventDao.queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public Event getById(int id) {
-        return this.eventDAO.getEventById(id);
+
+    public Event getById(int id){
+
+        try {
+            return this.eventDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
-    @Transactional
-    public void remove(int id) {
-        this.eventDAO.removeEvent(id);
+    public void remove(int id){
+
+        try {
+            this.eventDao.deleteById(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

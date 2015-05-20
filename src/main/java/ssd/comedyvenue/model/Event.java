@@ -1,23 +1,29 @@
 package ssd.comedyvenue.model;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-@Entity
-@Table(name = "Event")
-public class Event implements java.io.Serializable{
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+import com.j256.ormlite.table.DatabaseTable;
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
+@DatabaseTable(tableName = "event")
+public class Event {
+
+
+    @DatabaseField(generatedId = true)
     private Integer id;
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private Comedian comedian;
+    @DatabaseField
     private String name;
-    private Set<Booking> bookings = new HashSet<Booking>();
+    @DatabaseField
     private Date date;
+    @DatabaseField
     private Integer capacity;
+
+    @ForeignCollectionField
+    private ForeignCollection<Booking> bookings;
 
     public Event(){}
 
@@ -27,7 +33,6 @@ public class Event implements java.io.Serializable{
         this.capacity = capacity;
         this.date = date;
     }
-
 
     public Integer getId(){
         return this.id;
@@ -53,12 +58,11 @@ public class Event implements java.io.Serializable{
         this.name = name;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "Booking")
-    public Set<Booking> getBookings(){
+    public ForeignCollection<Booking> getBookings(){
         return this.bookings;
     }
 
-    public void setBookings(Set<Booking> bookings){
+    public void setBookings(ForeignCollection<Booking> bookings){
         this.bookings = bookings;
     }
 

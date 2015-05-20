@@ -1,4 +1,4 @@
-package ssd.comedyvenue.main;
+package ssd.comedyvenue.ui;
 
 
 import javafx.application.Application;
@@ -92,6 +92,5 @@ public class SplashController{
         }
 
     }
-
 
 }

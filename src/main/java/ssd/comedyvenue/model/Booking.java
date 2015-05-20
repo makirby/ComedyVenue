@@ -1,21 +1,23 @@
 package ssd.comedyvenue.model;
 
-import javax.persistence.*;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-@Entity
-@Table(name = "Booking")
+@DatabaseTable(tableName = "booking")
 public class Booking {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
+    @DatabaseField(generatedId = true)
     private int id;
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private Customer customer;
+    @DatabaseField
     private Integer seats;
+    @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private Event event;
+    @DatabaseField(foreign = true)
     private Feedback feedback;
+    @DatabaseField
     private Boolean canceled;
-
 
     public Booking(){}
 
@@ -33,7 +35,6 @@ public class Booking {
         this.id = id;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Customer")
     public Customer getCustomer() {
         return customer;
     }
@@ -50,7 +51,6 @@ public class Booking {
         this.seats = seats;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Event")
     public Event getEvent() {
         return event;
     }
@@ -59,7 +59,6 @@ public class Booking {
         this.event = event;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Feedback")
     public Feedback getFeedback() {
         return feedback;
     }
@@ -76,8 +75,4 @@ public class Booking {
         this.canceled = canceled;
     }
 
-    public String toString(){
-        return "id="+id+", customer="+customer.getName()+", seats="+seats.toString()
-                +", event="+event.getName()+", cancelled="+canceled.toString();
-    }
 }

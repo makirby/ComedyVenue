@@ -1,18 +1,30 @@
 package ssd.comedyvenue.model;
 
-import javax.persistence.*;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
-@Entity
-@Table(name = "Feedback")
+@DatabaseTable(tableName = "feedback")
 public class Feedback {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
+    @DatabaseField(generatedId = true)
     private int id;
+    @DatabaseField(canBeNull = false, foreign = true)
     private Customer customer;
+    @DatabaseField(canBeNull = false, foreign = true)
     private Booking booking;
+    @DatabaseField
     private String comments;
+    @DatabaseField
+    private Integer rating;
+
+    public Feedback() {}
+
+    public Feedback(Customer customer, Booking booking, String comments, Integer rating) {
+        this.customer = customer;
+        this.booking = booking;
+        this.comments = comments;
+        this.rating = rating;
+    }
 
     public int getId() {
         return id;
@@ -22,7 +34,6 @@ public class Feedback {
         this.id = id;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Customer")
     public Customer getCustomer() {
         return customer;
     }
@@ -31,7 +42,6 @@ public class Feedback {
         this.customer = customer;
     }
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "Booking")
     public Booking getBooking() {
         return booking;
     }
@@ -46,5 +56,13 @@ public class Feedback {
 
     public void setComments(String comments) {
         this.comments = comments;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 }
