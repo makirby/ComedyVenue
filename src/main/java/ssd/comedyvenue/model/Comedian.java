@@ -55,4 +55,9 @@ public class Comedian {
         this.contact = contact;
     }
 
+    @Override
+    public String toString(){
+        return this.name;
+    }
+
 }

@@ -75,4 +75,9 @@ public class Booking {
         this.canceled = canceled;
     }
 
+    @Override
+    public String toString(){
+        return this.customer.getName() + " - Seats:" + this.seats.toString();
+    }
+
 }

@@ -92,4 +92,9 @@ public class Event {
     public void setCapacity(Integer capacity){
         this.capacity = capacity;
     }
+
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }

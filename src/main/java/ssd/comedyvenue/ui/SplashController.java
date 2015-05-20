@@ -1,6 +1,7 @@
 package ssd.comedyvenue.ui;
 
 
+import com.j256.ormlite.dao.ForeignCollection;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -37,17 +38,12 @@ import java.util.Locale;
 public class SplashController{
 
     // ui elements
-//    @FXML public TableView eventsList;
-//    @FXML public TableColumn eventNameCol;
-
-
-
     @FXML public TextField eventName;
     @FXML public DatePicker eventDate;
     @FXML public TextField eventCap;
     @FXML public TextField eventMinAge;
     @FXML public CheckBox newEvent;
-    @FXML public TableView eventFeedback;
+    @FXML public ListView eventFeedback;
     @FXML public Label eventAudStats;
     @FXML public ComboBox eventComedianCombo;
     @FXML public Button updateEventButton;
@@ -60,12 +56,27 @@ public class SplashController{
     @FXML public Tab organiserTab;
 
     @FXML public ListView EventsList;
+    @FXML public ListView ComedianList;
+    @FXML public ListView bookingList;
 
-    @FXML public void handleMouseClick(MouseEvent arg0) {
+    @FXML public ListView EventsListClerk;
 
-        Event event = new Event();
+    @FXML public Label eventComedianLbl;
+    @FXML public Label eventNameLbl;
+    @FXML public Label eventDateLbl;
+    @FXML public Label eventCapLbl;
+    @FXML public Label eventMinAgeLbl;
+    @FXML public Button updateBookingButton;
+    @FXML public TextArea userFeedback;
+    @FXML public TextField bookingName;
+    @FXML public TextField bookingNumber;
+    @FXML public TextField bookingSeats;
+    @FXML public CheckBox bookingAgeConfirmedCheckbox;
+    @FXML public CheckBox newBooking;
 
-        event = (Event) EventsList.getSelectionModel().getSelectedItem();
+    @FXML public void selectEventClick(MouseEvent arg0) {
+
+        Event event = (Event) EventsList.getSelectionModel().getSelectedItem();
 
         DateTime date = new DateTime(event.getDate());
 
@@ -74,7 +85,56 @@ public class SplashController{
             date.getDayOfMonth()));
         eventCap.setText(event.getCapacity().toString());
         eventMinAge.setText(event.getRestriction().toString());
-        eventComedianCombo.getSelectionModel().select(event.getComedian().getName());
+        eventComedianCombo.getSelectionModel().select(event.getComedian());
+    }
+
+    @FXML public void selectComedianClick(MouseEvent arg0) {
+
+        Comedian comedian = (Comedian) ComedianList.getSelectionModel().getSelectedItem();
+
+        comedianName.setText(comedian.getName());
+        comedianNumber.setText(comedian.getContactNumber());
+        stageName.setText(comedian.getStageName());
+    }
+
+
+    @FXML public void selectEventClerkClick(MouseEvent arg0) {
+
+        Event event = (Event) EventsListClerk.getSelectionModel().getSelectedItem();
+
+        DateTime date = new DateTime(event.getDate());
+
+        eventNameLbl.setText(event.getName());
+        eventDateLbl.setText(event.getDate().toString());
+        eventCapLbl.setText(event.getCapacity().toString());
+        eventMinAgeLbl.setText(event.getRestriction().toString());
+        eventComedianLbl.setText(event.getComedian().getName());
+
+        ForeignCollection<Booking> bookinglist = event.getBookings();
+
+        ObservableList<Booking> bookings = FXCollections.observableArrayList(bookinglist);
+
+        bookingList.setItems(bookings);
+
+        newBooking.setSelected(false);
+        bookingAgeConfirmedCheckbox.setSelected(false);
+        bookingAgeConfirmedCheckbox.setVisible(false);
+
+        updateBookingButton.setDisable(false);
+        updateBookingButton.setText("UPDATE");
+    }
+
+    @FXML public void selectBookingClick(MouseEvent arg0){
+
+        Booking booking = (Booking) bookingList.getSelectionModel().getSelectedItem();
+
+        bookingName.setText(booking.getCustomer().getName());
+        bookingNumber.setText(booking.getCustomer().getContact());
+        bookingSeats.setText(booking.getSeats().toString());
+
+        newBooking.setSelected(false);
+        bookingAgeConfirmedCheckbox.setSelected(false);
+        bookingAgeConfirmedCheckbox.setVisible(false);
 
 
     }
@@ -95,26 +155,76 @@ public class SplashController{
 
 
 
-//    tp = tv.getFocusModel().getFocusedCell();
-
     public void refreshEvents(ActionEvent actionEvent) {
 
+        /// load events
         List<Event> eventList = eventRepository.list();
 
         ObservableList<Event> events = FXCollections.observableArrayList(eventList);
 
         EventsList.setItems(events);
+        EventsListClerk.setItems(events);
 
-
+        /// event comedian drop down
         List<Comedian> comedianList = comedianRepository.list();
 
         ObservableList<Comedian> comedians = FXCollections.observableArrayList(comedianList);
 
         eventComedianCombo.setItems(comedians);
+        ComedianList.setItems(comedians);
     }
 
+    public void newEventCheckedboxClicked(ActionEvent e){
 
+        if(newEvent.isSelected()){
+            updateEventButton.setText("ADD");
+        }else{
+            updateEventButton.setText("UPDATE");
+        }
+    }
 
+    public void newComedianCheckedboxClicked(ActionEvent e){
+
+        if(newComedian.isSelected()){
+            updateComedianButton.setText("ADD");
+        }else{
+            updateComedianButton.setText("UPDATE");
+        }
+    }
+
+    public void newBookingCheckboxClicked(ActionEvent e){
+
+        if(newBooking.isSelected()){
+
+            updateBookingButton.setDisable(true);
+            updateBookingButton.setText("CONFIRM CUSTOMER AGE");
+            bookingAgeConfirmedCheckbox.setSelected(false);
+            bookingAgeConfirmedCheckbox.setVisible(true);
+
+        }else{
+
+            updateBookingButton.setDisable(false);
+            updateBookingButton.setText("UPDATE");
+            bookingAgeConfirmedCheckbox.setSelected(false);
+            bookingAgeConfirmedCheckbox.setVisible(false);
+        }
+
+    }
+
+    public void bookingAgeConfirmedCheckboxClicked(ActionEvent e){
+
+        if(bookingAgeConfirmedCheckbox.isSelected()){
+
+            updateBookingButton.setDisable(false);
+            updateBookingButton.setText("ADD");
+
+        }else{
+
+            updateBookingButton.setDisable(true);
+            updateBookingButton.setText("CONFIRM CUSTOMER AGE");
+        }
+
+    }
 
 
 
@@ -130,12 +240,19 @@ public class SplashController{
 
             event.setName(eventName.getText());
 
-            DateTime date = new DateTime(eventDate.getValue());
+            DateTime date = new DateTime();
+
+            date.withMonthOfYear(eventDate.getValue().getMonthValue());
+            date.withYear(eventDate.getValue().getYear());
+            date.withDayOfMonth(eventDate.getValue().getDayOfMonth());
             event.setDate(date.toDate());
 
             event.setCapacity(Integer.parseInt(eventCap.getText()));
-            event.setCapacity(Integer.parseInt(eventCap.getText()));
-            event.setComedian((Comedian) eventComedianCombo.getSelectionModel().getSelectedItem());
+            event.setRestriction(Integer.parseInt(eventMinAge.getText()));
+
+
+        Comedian com = (Comedian) eventComedianCombo.getSelectionModel().getSelectedItem();
+            event.setComedian(com);
 
 
         if(newEvent.isSelected()){
@@ -154,22 +271,68 @@ public class SplashController{
 
     public void updateComedian(ActionEvent event){
 
-        if(newComedian.isSelected()){
+        comedianRepository = new ComedianRepository();
 
-            Comedian comedian = new Comedian();
+        Comedian comedian = new Comedian();
+
+        if(!newComedian.isSelected()) {
+            comedian = (Comedian) ComedianList.getSelectionModel().getSelectedItem();
+        }
 
             comedian.setName(comedianName.getText());
             comedian.setStageName(stageName.getText());
             comedian.setContactNumber(comedianNumber.getText());
 
-        }else {
+        if(newComedian.isSelected()){
 
+            /// add event
+            comedianRepository.add(comedian);
 
+        }else{
+
+            /// update event
+            comedianRepository.update(comedian);
         }
 
 
 
     }
 
+    public void updateBooking(ActionEvent actionEvent) throws ParseException {
+
+        bookingRepository = new BookingRepository();
+
+        Booking booking = new Booking();
+
+        if(!newBooking.isSelected()) {
+            booking = (Booking) bookingList.getSelectionModel().getSelectedItems();
+        }
+
+        booking.setCustomer(checkExists());
+
+    }
+
+    private Customer checkExists(String name, String contact){
+
+        for (Customer customer: customerRepository.list()){
+
+            if (customer.getName() == name && customer.getContact() == contact){
+                return customer;
+            }
+
+        }
+
+        customerRepository.add( new Customer(name, contact));
+
+        for (Customer customer: customerRepository.list()){
+
+            if (customer.getName() == name && customer.getContact() == contact){
+                return customer;
+            }
+
+        }
+
+        return null;
+    }
 
 }

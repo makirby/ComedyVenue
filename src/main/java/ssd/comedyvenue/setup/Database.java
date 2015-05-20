@@ -20,9 +20,6 @@ public class Database {
 
         try {
 
-            if(null != ConnectionProvider.getConnection().getDatabaseType()){
-                return;
-            }
 
             //setup database tables
             createTables();
