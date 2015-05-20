@@ -9,7 +9,7 @@ public class Feedback {
     @DatabaseField(generatedId = true)
     private int id;
     @DatabaseField(canBeNull = false, foreign = true)
-    private Booking booking;
+    private Event event;
     @DatabaseField
     private String comments;
     @DatabaseField
@@ -17,8 +17,8 @@ public class Feedback {
 
     public Feedback() {}
 
-    public Feedback( Booking booking, String comments, Integer rating) {
-        this.booking = booking;
+    public Feedback( Event event, String comments, Integer rating) {
+        this.event = event;
         this.comments = comments;
         this.rating = rating;
     }
@@ -31,12 +31,12 @@ public class Feedback {
         this.id = id;
     }
 
-    public Booking getBooking() {
-        return booking;
+    public Event getBooking() {
+        return event;
     }
 
-    public void setBooking(Booking booking) {
-        this.booking = booking;
+    public void setBooking(Event event) {
+        this.event = event;
     }
 
     public String getComments() {

@@ -1,6 +1,5 @@
 package ssd.comedyvenue.setup;
 
-import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import org.joda.time.DateTime;
 import ssd.comedyvenue.model.*;
@@ -19,7 +18,6 @@ public class Database {
     public void init(){
 
         try {
-
 
             //setup database tables
             createTables();
@@ -42,6 +40,7 @@ public class Database {
     //creates the database tables
     private void createTables() throws Exception{
         //Create tables in DB
+
         TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Booking.class);
         TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Comedian.class);
         TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Customer.class);
@@ -49,15 +48,15 @@ public class Database {
         TableUtils.createTableIfNotExists(ConnectionProvider.getConnection(), Feedback.class);
     }
 
-    //creates a selection of customer entitites and inserts into the database
+    //creates a selection of customer entities and inserts into the database
     private void createCustomers(){
 
         DateTime now = DateTime.now();
-        Customer customer1 = new Customer("John Smith", now.minusYears(34).toDate() ,"087916273812");
-        Customer customer2 = new Customer("Alan Hutton", now.minusYears(19).toDate() ,"082146278719");
-        Customer customer3 = new Customer("Gordon Banks", now.minusYears(54).toDate() ,"084848278719");
-        Customer customer4 = new Customer("Jack Charlton", now.minusYears(62).toDate() ,"084246375719");
-        Customer customer5 = new Customer("Peter Shilton", now.minusYears(29).toDate() ,"081646278719");
+        Customer customer1 = new Customer("John Smith", "087916273812");
+        Customer customer2 = new Customer("Alan Hutton", "082146278719");
+        Customer customer3 = new Customer("Gordon Banks", "084848278719");
+        Customer customer4 = new Customer("Jack Charlton", "084246375719");
+        Customer customer5 = new Customer("Peter Shilton", "081646278719");
 
         customerRepo.add(customer1);
         customerRepo.add(customer2);
@@ -121,11 +120,10 @@ public class Database {
     //creates a selection of feedback in the database
     private void createFeedback(){
 
-        Booking booking1 = bookingRepo.getById(2);
-        Booking booking2 = bookingRepo.getById(3);
+        Event event1 = eventRepo.getById(4);
 
-        Feedback feedback1 = new Feedback(booking1, "Wow what a great show", 4);
-        Feedback feedback2 = new Feedback(booking2, "It was alright", 3);
+        Feedback feedback1 = new Feedback(event1, "Wow what a great show", 4);
+        Feedback feedback2 = new Feedback(event1, "It was alright", 3);
 
         feedbackRepo.add(feedback1);
         feedbackRepo.add(feedback2);

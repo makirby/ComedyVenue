@@ -10,7 +10,6 @@ import com.j256.ormlite.table.DatabaseTable;
 @DatabaseTable(tableName = "event")
 public class Event {
 
-
     @DatabaseField(generatedId = true)
     private Integer id;
     @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
@@ -26,6 +25,9 @@ public class Event {
 
     @ForeignCollectionField
     private ForeignCollection<Booking> bookings;
+
+    @ForeignCollectionField
+    private ForeignCollection<Feedback> feedback;
 
     public Event(){}
 
@@ -61,14 +63,6 @@ public class Event {
         this.name = name;
     }
 
-    public ForeignCollection<Booking> getBookings(){
-        return this.bookings;
-    }
-
-    public void setBookings(ForeignCollection<Booking> bookings){
-        this.bookings = bookings;
-    }
-
     public Date getDate(){
         return this.date;
     }
@@ -91,6 +85,22 @@ public class Event {
 
     public void setCapacity(Integer capacity){
         this.capacity = capacity;
+    }
+
+    public ForeignCollection<Booking> getBookings(){
+        return this.bookings;
+    }
+
+    public void setBookings(ForeignCollection<Booking> bookings){
+        this.bookings = bookings;
+    }
+
+    public ForeignCollection<Feedback> getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(ForeignCollection<Feedback> feedback) {
+        this.feedback = feedback;
     }
 
     @Override

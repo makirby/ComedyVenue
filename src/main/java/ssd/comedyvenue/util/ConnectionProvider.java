@@ -11,8 +11,8 @@ public class ConnectionProvider {
     //Provides a connection to the specified database
     public static ConnectionSource getConnection() throws Exception{
 
-        ConnectionSource connectionSource = new JdbcConnectionSource(databaseUrl);
-        return connectionSource;
+        ConnectionSource connection = new JdbcConnectionSource(databaseUrl);
+        return connection;
 
     }
 }
