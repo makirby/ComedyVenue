@@ -73,6 +73,7 @@ public class SplashController{
     @FXML public Label eventDateLbl;
     @FXML public Label eventCapLbl;
     @FXML public Label eventMinAgeLbl;
+    @FXML public Label eventAvailableSeatsLbl;
     @FXML public Button updateBookingButton;
     @FXML public TextArea userFeedback;
     @FXML public TextField userRating;
@@ -163,6 +164,17 @@ public class SplashController{
         }else{
             noBookingsLbl.setVisible(false);
         }
+
+        Integer seats = 0;
+        for(Booking booking: bookinglist){
+
+            if(!booking.getCanceled()){
+
+                seats = seats + booking.getSeats();
+            }
+        }
+        Integer availableSeats = event.getCapacity() - seats;
+        eventAvailableSeatsLbl.setText(availableSeats.toString());
 
         bookingList.setItems(bookings);
 
