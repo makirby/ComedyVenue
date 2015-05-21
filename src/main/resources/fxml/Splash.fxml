@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.control.cell.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -11,7 +14,7 @@
    <children>
       <TabPane prefHeight="639.0" prefWidth="1011.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab fx:id="organiserTab" text="ORGANISER">
+          <Tab fx:id="organiserTab" closable="false" style="border: none; outline: none;" text="ORGANISER">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="554.0" prefWidth="785.0">
                      <children>
@@ -24,32 +27,31 @@
                         <TextField id="eventName" fx:id="eventName" layoutX="386.0" layoutY="26.0" />
                         <TextField fx:id="eventCap" layoutX="386.0" layoutY="146.0" />
                         <TextField fx:id="eventMinAge" layoutX="386.0" layoutY="194.0" />
-                        <Separator layoutX="24.0" layoutY="334.0" prefHeight="22.0" prefWidth="733.0" />
-                        <CheckBox fx:id="newEvent" layoutX="322.0" layoutY="252.0" mnemonicParsing="false" text="NEW EVENT" />
-                        <TableView fx:id="eventFeedback" layoutX="575.0" layoutY="24.0" prefHeight="203.0" prefWidth="186.0">
-                          <columns>
-                            <TableColumn prefWidth="185.0" text="FEEDBACK" />
-                          </columns>
-                        </TableView>
-                        <TableView layoutX="23.0" layoutY="364.0" prefHeight="224.0" prefWidth="199.0">
-                          <columns>
-                            <TableColumn prefWidth="197.99999046325684" text="COMEDIANS" />
-                          </columns>
-                        </TableView>
+                        <Separator layoutX="24.0" layoutY="334.0" prefHeight="22.0" prefWidth="972.0" />
+                        <CheckBox fx:id="newEvent" layoutX="322.0" layoutY="252.0" mnemonicParsing="false" onAction="#newEventCheckedboxClicked" text="NEW EVENT" />
                         <Label layoutX="331.0" layoutY="373.0" text="NAME" />
                         <Label layoutX="290.0" layoutY="425.0" text="STAGE NAME" />
                         <Label layoutX="316.0" layoutY="478.0" text="NUMBER" />
                         <Button fx:id="updateComedianButton" layoutX="330.0" layoutY="561.0" mnemonicParsing="false" onAction="#updateComedian" prefHeight="26.0" prefWidth="228.0" text="UPDATE" />
-                        <CheckBox fx:id="newComedian" layoutX="326.0" layoutY="528.0" mnemonicParsing="false" text="NEW COMEDIAN" />
+                        <CheckBox fx:id="newComedian" layoutX="326.0" layoutY="528.0" mnemonicParsing="false" onAction="#newComedianCheckedboxClicked" text="NEW COMEDIAN" />
                         <TextField fx:id="comedianName" layoutX="393.0" layoutY="368.0" />
                         <TextField fx:id="stageName" layoutX="391.0" layoutY="421.0" prefHeight="26.0" prefWidth="164.0" />
                         <TextField fx:id="comedianNumber" layoutX="392.0" layoutY="473.0" />
-                        <Label layoutX="798.0" layoutY="39.0" text="AUDIENCE STATS" />
-                        <Label fx:id="eventAudStats" layoutX="810.0" layoutY="78.0" text="EVENT AUD STATS" />
-                        <ListView fx:id="EventsList" layoutX="23.0" layoutY="59.0" onMouseClicked="#handleMouseClick" prefHeight="265.0" prefWidth="265.0" />
-                        <Button layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#refreshEvents" text="refresh organiser tab" />
+                        <Label layoutX="814.0" layoutY="36.0" text="AUDIENCE STATS" />
+                        <Label fx:id="eventBookedSeats" layoutX="936.0" layoutY="70.0" text="stat" />
+                        <ListView fx:id="EventsList" layoutX="31.0" layoutY="85.0" onMouseClicked="#selectEventClick" prefHeight="242.0" prefWidth="201.0" />
+                        <Button layoutX="30.0" layoutY="19.0" mnemonicParsing="false" onAction="#refreshEvents" style="-fx-background-color: #57BC36;" text="CLICK TO LOAD DATA" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                         <ComboBox fx:id="eventComedianCombo" layoutX="388.0" layoutY="102.0" prefHeight="26.0" prefWidth="159.0" />
                         <DatePicker fx:id="eventDate" layoutX="373.0" layoutY="65.0" />
+                        <ListView fx:id="ComedianList" layoutX="31.0" layoutY="382.0" onMouseClicked="#selectComedianClick" prefHeight="195.0" prefWidth="216.0" />
+                        <Label layoutX="36.0" layoutY="62.0" text="EVENTS" />
+                        <Label layoutX="35.0" layoutY="360.0" text="COMEDIANS" />
+                        <ListView fx:id="eventFeedback" layoutX="584.0" layoutY="51.0" maxWidth="1.7976931348623157E308" prefHeight="264.0" prefWidth="204.0" />
+                        <Label layoutX="590.0" layoutY="31.0" text="FEEDBACK" />
+                        <Label layoutX="814.0" layoutY="70.0" text="SEATS BOOKED :" />
                      </children>
                   </AnchorPane>
             </content>
@@ -58,35 +60,43 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="23.0" layoutY="28.0" prefHeight="539.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn prefWidth="198.72746658325195" text="EVENTS" />
-                          </columns>
-                        </TableView>
-                        <Label layoutX="338.0" layoutY="29.0" text="DETAILS" />
+                        <Label layoutX="338.0" layoutY="29.0" text="EVENT DETAILS" textFill="#ff3d3d" />
                         <Label layoutX="340.0" layoutY="59.0" text="NAME :" />
                         <Label layoutX="343.0" layoutY="98.0" text="DATE :" />
                         <Label layoutX="307.0" layoutY="130.0" text="COMEDIAN :" />
-                        <Label layoutX="322.0" layoutY="167.0" text="NUMBER :" />
+                        <Label layoutX="322.0" layoutY="167.0" text="CAPACITY" />
                         <Label layoutX="324.0" layoutY="202.0" text="MIN AGE :" />
-                        <Label layoutX="400.0" layoutY="59.0" text="EVENT NAME" />
-                        <Label layoutX="402.0" layoutY="98.0" text="EVENT DATE" />
-                        <Label layoutX="404.0" layoutY="130.0" text="EVENT COMEDIAN" />
-                        <Label layoutX="404.0" layoutY="167.0" text="EVENT NUMBER" />
-                        <Label layoutX="406.0" layoutY="202.0" text="EVENT MIN AGE" />
-                        <TableView layoutX="320.0" layoutY="261.0" prefHeight="306.0" prefWidth="200.0">
-                          <columns>
-                            <TableColumn prefWidth="199.0" text="BOOKINGS" />
-                          </columns>
-                        </TableView>
-                        <Label layoutX="593.0" layoutY="277.0" text="NAME" />
-                        <Label layoutX="592.0" layoutY="333.0" text="SEATS" />
-                        <Label layoutX="573.0" layoutY="385.0" text="NUMBER" />
-                        <TextField layoutX="676.0" layoutY="272.0" />
-                        <TextField layoutX="676.0" layoutY="331.0" />
-                        <TextField layoutX="676.0" layoutY="381.0" />
-                        <CheckBox layoutX="596.0" layoutY="450.0" mnemonicParsing="false" text="NEW BOOKING" />
-                        <Button layoutX="600.0" layoutY="500.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="244.0" text="UPDATE" />
+                        <Label fx:id="eventNameLbl" layoutX="400.0" layoutY="59.0" text=" " />
+                        <Label fx:id="eventDateLbl" layoutX="402.0" layoutY="98.0" text=" " />
+                        <Label fx:id="eventComedianLbl" layoutX="404.0" layoutY="130.0" text=" " />
+                        <Label fx:id="eventCapLbl" layoutX="404.0" layoutY="167.0" text=" " />
+                        <Label fx:id="eventMinAgeLbl" layoutX="406.0" layoutY="202.0" text=" " />
+                        <Label layoutX="649.0" layoutY="321.0" text="NAME" />
+                        <Label layoutX="651.0" layoutY="395.0" text="SEATS" />
+                        <Label layoutX="638.0" layoutY="353.0" text="NUMBER" />
+                        <TextField fx:id="bookingName" layoutX="701.0" layoutY="316.0" prefHeight="26.0" prefWidth="139.0" />
+                        <TextField fx:id="bookingSeats" layoutX="707.0" layoutY="393.0" prefHeight="26.0" prefWidth="62.0" />
+                        <TextField fx:id="bookingNumber" layoutX="704.0" layoutY="354.0" prefHeight="26.0" prefWidth="138.0" />
+                        <CheckBox fx:id="newBooking" layoutX="636.0" layoutY="478.0" mnemonicParsing="false" onAction="#newBookingCheckboxClicked" text="NEW BOOKING" />
+                        <Button fx:id="updateBookingButton" layoutX="637.0" layoutY="536.0" mnemonicParsing="false" onAction="#updateBooking" prefHeight="26.0" prefWidth="244.0" text="UPDATE" />
+                        <ListView fx:id="EventsListClerk" layoutX="24.0" layoutY="46.0" onMouseClicked="#selectEventClerkClick" prefHeight="518.0" prefWidth="219.0" />
+                        <Label layoutX="30.0" layoutY="22.0" text="EVENTS" textFill="#ff3d3d" />
+                        <ListView fx:id="bookingList" layoutX="321.0" layoutY="282.0" onMouseClicked="#selectBookingClick" prefHeight="284.0" prefWidth="248.0" />
+                        <Label layoutX="323.0" layoutY="262.0" text="BOOKINGS" textFill="#0894ff" />
+                        <Label layoutX="645.0" layoutY="281.0" text="BOOKING DETAILS" textFill="#0894ff" />
+                        <TextArea fx:id="userFeedback" layoutX="703.0" layoutY="87.0" prefHeight="103.0" prefWidth="158.0" wrapText="true" />
+                        <Label layoutX="626.0" layoutY="87.0" text="COMMENT" />
+                        <CheckBox fx:id="bookingAgeConfirmedCheckbox" layoutX="637.0" layoutY="510.0" mnemonicParsing="false" onAction="#bookingAgeConfirmedCheckboxClicked" text="CUSTOMER AGE CONFIRMED" visible="false" />
+                        <Label layoutX="626.0" layoutY="29.0" text="NEW CUSTOMER EVENT FEEDBACK" textFill="#ff3d3d" />
+                        <TextField fx:id="userRating" layoutX="761.0" layoutY="53.0" prefHeight="26.0" prefWidth="42.0" />
+                        <CheckBox fx:id="cancelBooking" layoutX="708.0" layoutY="433.0" mnemonicParsing="false" text="CANCEL BOOKING" />
+                        <Button fx:id="updateFeedbackButton" disable="true" layoutX="626.0" layoutY="197.0" mnemonicParsing="false" onAction="#updateFeedback" prefHeight="26.0" prefWidth="237.0" text="ADD FEEDBACK" />
+                        <Label layoutX="628.0" layoutY="58.0" text="RATING (OUT OF 5)" />
+                        <ImageView fx:id="feedbackImage" fitHeight="27.0" fitWidth="30.0" layoutX="867.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../success.png" />
+                           </image>
+                        </ImageView>
                      </children>
                   </AnchorPane>
             </content>

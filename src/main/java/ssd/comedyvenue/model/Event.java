@@ -102,4 +102,9 @@ public class Event {
     public void setFeedback(ForeignCollection<Feedback> feedback) {
         this.feedback = feedback;
     }
+
+    @Override
+    public String toString(){
+        return this.name;
+    }
 }
