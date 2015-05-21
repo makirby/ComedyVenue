@@ -2,6 +2,8 @@ package ssd.comedyvenue.ui;
 
 
 import com.j256.ormlite.dao.ForeignCollection;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
@@ -16,8 +18,10 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import org.joda.time.DateTime;
 import ssd.comedyvenue.model.*;
 import ssd.comedyvenue.model.Event;
@@ -44,7 +48,7 @@ public class SplashController{
     @FXML public TextField eventMinAge;
     @FXML public CheckBox newEvent;
     @FXML public ListView eventFeedback;
-    @FXML public Label eventAudStats;
+    @FXML public Label eventBookedSeats;
     @FXML public ComboBox eventComedianCombo;
     @FXML public Button updateEventButton;
 
@@ -68,11 +72,17 @@ public class SplashController{
     @FXML public Label eventMinAgeLbl;
     @FXML public Button updateBookingButton;
     @FXML public TextArea userFeedback;
+    @FXML public TextField userRating;
     @FXML public TextField bookingName;
     @FXML public TextField bookingNumber;
     @FXML public TextField bookingSeats;
     @FXML public CheckBox bookingAgeConfirmedCheckbox;
     @FXML public CheckBox newBooking;
+    @FXML public CheckBox cancelBooking;
+
+    @FXML public Button updateFeedbackButton;
+
+    @FXML public ImageView feedbackImage;
 
     @FXML public void selectEventClick(MouseEvent arg0) {
 
@@ -86,6 +96,10 @@ public class SplashController{
         eventCap.setText(event.getCapacity().toString());
         eventMinAge.setText(event.getRestriction().toString());
         eventComedianCombo.getSelectionModel().select(event.getComedian());
+
+        ForeignCollection<Feedback> feedbackList = event.getFeedback();
+        ObservableList<Feedback> feedback = FXCollections.observableArrayList(feedbackList);
+        eventFeedback.setItems(feedback);
     }
 
     @FXML public void selectComedianClick(MouseEvent arg0) {
@@ -110,6 +124,11 @@ public class SplashController{
         eventMinAgeLbl.setText(event.getRestriction().toString());
         eventComedianLbl.setText(event.getComedian().getName());
 
+//        ForeignCollection<Feedback> feedbackList = event.getFeedback();
+//        ObservableList<Feedback> feedback = FXCollections.observableArrayList(feedbackList);
+
+//        userFeedback.setText();
+
         ForeignCollection<Booking> bookinglist = event.getBookings();
 
         ObservableList<Booking> bookings = FXCollections.observableArrayList(bookinglist);
@@ -122,6 +141,8 @@ public class SplashController{
 
         updateBookingButton.setDisable(false);
         updateBookingButton.setText("UPDATE");
+
+        updateFeedbackButton.setDisable(false);
     }
 
     @FXML public void selectBookingClick(MouseEvent arg0){
@@ -131,6 +152,8 @@ public class SplashController{
         bookingName.setText(booking.getCustomer().getName());
         bookingNumber.setText(booking.getCustomer().getContact());
         bookingSeats.setText(booking.getSeats().toString());
+
+        cancelBooking.setSelected(booking.getCanceled());
 
         newBooking.setSelected(false);
         bookingAgeConfirmedCheckbox.setSelected(false);
@@ -305,18 +328,35 @@ public class SplashController{
         Booking booking = new Booking();
 
         if(!newBooking.isSelected()) {
-            booking = (Booking) bookingList.getSelectionModel().getSelectedItems();
+            booking = (Booking) bookingList.getSelectionModel().getSelectedItem();
         }
 
-        booking.setCustomer(checkExists());
+        booking.setCustomer(checkExists(bookingName.getText(), bookingNumber.getText()));
+        booking.setSeats(Integer.parseInt(bookingSeats.getText()));
+        booking.setAgeConfirmed(true);
+        booking.setCanceled(cancelBooking.isSelected());
 
+        Event event = (Event) EventsListClerk.getSelectionModel().getSelectedItem();
+
+        booking.setEvent(event);
+
+        if(newBooking.isSelected()){
+
+            /// add booking
+            bookingRepository.add(booking);
+
+        }else{
+
+            /// update booking
+            bookingRepository.update(booking);
+        }
     }
 
     private Customer checkExists(String name, String contact){
 
         for (Customer customer: customerRepository.list()){
 
-            if (customer.getName() == name && customer.getContact() == contact){
+            if (customer.getName().equals(name) && customer.getContact().equals(contact)){
                 return customer;
             }
 
@@ -326,13 +366,44 @@ public class SplashController{
 
         for (Customer customer: customerRepository.list()){
 
-            if (customer.getName() == name && customer.getContact() == contact){
+            if (customer.getName().equals(name) && customer.getContact().equals(contact)){
                 return customer;
             }
 
         }
 
         return null;
+    }
+
+
+    public void updateFeedback(ActionEvent e){
+
+        feedbackRepoistory = new FeedbackRepository();
+
+        Feedback feedback = new Feedback();
+
+        Event event = (Event) EventsListClerk.getSelectionModel().getSelectedItem();
+        // this setBooking takes an Event so should be called setEvent
+        feedback.setBooking(event);
+        feedback.setComments(userFeedback.getText());
+        feedback.setRating(Integer.parseInt(userRating.getText()));
+
+        feedbackRepoistory.add(feedback);
+
+        feedbackImage.setVisible(true);
+        userFeedback.clear();
+        userRating.clear();
+
+        Timeline timeline = new Timeline();
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(2),
+            new EventHandler<ActionEvent>() {
+
+                @Override
+                public void handle(ActionEvent event) {
+                    feedbackImage.setVisible(false);
+                }
+            }));
+        timeline.play();
     }
 
 }
