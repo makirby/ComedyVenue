@@ -122,7 +122,7 @@ public class Database {
 
         Event event1 = eventRepo.getById(4);
 
-        Feedback feedback1 = new Feedback(event1, "Wow what a great show", 4);
+        Feedback feedback1 = new Feedback(event1, "Wow what a great show, everybody really like the performance and the venue was grand", 4);
         Feedback feedback2 = new Feedback(event1, "It was alright", 3);
 
         feedbackRepo.add(feedback1);
