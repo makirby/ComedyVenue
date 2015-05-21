@@ -117,7 +117,10 @@ public class SplashController{
         Integer seats = 0;
         for(Booking booking: bookingList){
 
-            seats = seats + booking.getSeats();
+            if(!booking.getCanceled()){
+
+                seats = seats + booking.getSeats();
+            }
         }
 
         eventBookedSeats.setText(seats.toString());
