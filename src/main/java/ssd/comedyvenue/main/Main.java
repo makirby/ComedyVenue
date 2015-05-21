@@ -16,7 +16,7 @@ public class Main extends Application{
 
         Parent root = FXMLLoader.load(getClass().getResource("/fxml/Splash.fxml"));
         primaryStage.setTitle("splash");
-        primaryStage.setScene(new Scene(root, 1000, 1000));
+        primaryStage.setScene(new Scene(root, 1000, 650));
         primaryStage.show();
     }
 
