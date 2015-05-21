@@ -15,7 +15,7 @@ public class Booking {
     @DatabaseField(canBeNull = false, foreign = true, foreignAutoRefresh = true)
     private Event event;
     @DatabaseField
-    private Boolean canceled;
+    private boolean canceled;
     @DatabaseField
     private Boolean ageConfirmed;
 
@@ -78,6 +78,6 @@ public class Booking {
 
     @Override
     public String toString(){
-        return this.customer.getName() + " - Seats:" + this.seats.toString();
+        return this.customer.getName();
     }
 }
