@@ -51,6 +51,9 @@ public class SplashController{
     @FXML public Label eventBookedSeats;
     @FXML public ComboBox eventComedianCombo;
     @FXML public Button updateEventButton;
+    @FXML public Label noFeedbackLbl;
+    @FXML public ImageView eventImage;
+    @FXML public ImageView comedianImage;
 
     @FXML public TextField comedianName;
     @FXML public TextField stageName;
@@ -79,6 +82,9 @@ public class SplashController{
     @FXML public CheckBox bookingAgeConfirmedCheckbox;
     @FXML public CheckBox newBooking;
     @FXML public CheckBox cancelBooking;
+    @FXML public Label noBookingsLbl;
+    @FXML public ImageView bookingImage;
+
 
     @FXML public Button updateFeedbackButton;
 
@@ -99,7 +105,25 @@ public class SplashController{
 
         ForeignCollection<Feedback> feedbackList = event.getFeedback();
         ObservableList<Feedback> feedback = FXCollections.observableArrayList(feedbackList);
+        if(feedback.size() == 0){
+            noFeedbackLbl.setVisible(true);
+        }else{
+            noFeedbackLbl.setVisible(false);
+        }
+
         eventFeedback.setItems(feedback);
+
+        ForeignCollection<Booking> bookingList = event.getBookings();
+        Integer seats = 0;
+        for(Booking booking: bookingList){
+
+            seats = seats + booking.getSeats();
+        }
+
+        eventBookedSeats.setText(seats.toString());
+
+        newEvent.setSelected(false);
+        updateEventButton.setText("UPDATE");
     }
 
     @FXML public void selectComedianClick(MouseEvent arg0) {
@@ -109,6 +133,9 @@ public class SplashController{
         comedianName.setText(comedian.getName());
         comedianNumber.setText(comedian.getContactNumber());
         stageName.setText(comedian.getStageName());
+
+        newComedian.setSelected(false);
+        updateComedianButton.setText("UPDATE");
     }
 
 
@@ -124,14 +151,15 @@ public class SplashController{
         eventMinAgeLbl.setText(event.getRestriction().toString());
         eventComedianLbl.setText(event.getComedian().getName());
 
-//        ForeignCollection<Feedback> feedbackList = event.getFeedback();
-//        ObservableList<Feedback> feedback = FXCollections.observableArrayList(feedbackList);
-
-//        userFeedback.setText();
-
         ForeignCollection<Booking> bookinglist = event.getBookings();
 
         ObservableList<Booking> bookings = FXCollections.observableArrayList(bookinglist);
+        if(bookings.size() == 0){
+
+            noBookingsLbl.setVisible(true);
+        }else{
+            noBookingsLbl.setVisible(false);
+        }
 
         bookingList.setItems(bookings);
 
@@ -159,7 +187,8 @@ public class SplashController{
         bookingAgeConfirmedCheckbox.setSelected(false);
         bookingAgeConfirmedCheckbox.setVisible(false);
 
-
+        updateBookingButton.setDisable(false);
+        updateBookingButton.setText("UPDATE");
     }
 
 
@@ -178,7 +207,13 @@ public class SplashController{
 
 
 
-    public void refreshEvents(ActionEvent actionEvent) {
+    public void refreshAllData(ActionEvent actionEvent) {
+
+        refreshEventData();
+        refreshComedianData();
+    }
+
+    public void refreshEventData(){
 
         /// load events
         List<Event> eventList = eventRepository.list();
@@ -187,6 +222,9 @@ public class SplashController{
 
         EventsList.setItems(events);
         EventsListClerk.setItems(events);
+    }
+
+    public void refreshComedianData(){
 
         /// event comedian drop down
         List<Comedian> comedianList = comedianRepository.list();
@@ -197,7 +235,28 @@ public class SplashController{
         ComedianList.setItems(comedians);
     }
 
+    public void refreshBookingData(){
+
+        Event event = (Event) EventsListClerk.getSelectionModel().getSelectedItem();
+
+        ForeignCollection<Booking> bookinglist = event.getBookings();
+
+        ObservableList<Booking> bookings = FXCollections.observableArrayList(bookinglist);
+        if(bookings.size() == 0){
+
+            noBookingsLbl.setVisible(true);
+        }else{
+            noBookingsLbl.setVisible(false);
+        }
+
+        bookingList.setItems(bookings);
+    }
+
     public void newEventCheckedboxClicked(ActionEvent e){
+
+        EventsList.getSelectionModel().clearSelection();
+        eventFeedback.getItems().clear();
+        eventBookedSeats.setText("");
 
         if(newEvent.isSelected()){
             updateEventButton.setText("ADD");
@@ -208,6 +267,8 @@ public class SplashController{
 
     public void newComedianCheckedboxClicked(ActionEvent e){
 
+        ComedianList.getSelectionModel().clearSelection();
+
         if(newComedian.isSelected()){
             updateComedianButton.setText("ADD");
         }else{
@@ -216,6 +277,8 @@ public class SplashController{
     }
 
     public void newBookingCheckboxClicked(ActionEvent e){
+
+        bookingList.getSelectionModel().clearSelection();
 
         if(newBooking.isSelected()){
 
@@ -282,6 +345,12 @@ public class SplashController{
 
             /// add event
             eventRepository.add(event);
+            eventName.clear();
+            eventDate.getEditor().clear();
+            eventCap.clear();
+            eventMinAge.clear();
+            eventComedianCombo.getSelectionModel().clearSelection();
+            newEvent.setSelected(false);
 
         }else{
 
@@ -289,6 +358,8 @@ public class SplashController{
             eventRepository.update(event);
         }
 
+        refreshEventData();
+        showSuccessImage(eventImage);
     }
 
 
@@ -310,6 +381,10 @@ public class SplashController{
 
             /// add event
             comedianRepository.add(comedian);
+            comedianName.clear();
+            stageName.clear();
+            comedianNumber.clear();
+            newComedian.setSelected(false);
 
         }else{
 
@@ -317,8 +392,8 @@ public class SplashController{
             comedianRepository.update(comedian);
         }
 
-
-
+        refreshComedianData();
+        showSuccessImage(comedianImage);
     }
 
     public void updateBooking(ActionEvent actionEvent) throws ParseException {
@@ -344,12 +419,24 @@ public class SplashController{
 
             /// add booking
             bookingRepository.add(booking);
+            bookingName.clear();
+            bookingNumber.clear();
+            bookingSeats.clear();
+            cancelBooking.setSelected(false);
+            newBooking.setSelected(false);
+            bookingAgeConfirmedCheckbox.setSelected(false);
+            bookingAgeConfirmedCheckbox.setVisible(false);
+            updateBookingButton.setDisable(false);
+            updateBookingButton.setText("UPDATE");
 
         }else{
 
             /// update booking
             bookingRepository.update(booking);
         }
+
+        refreshBookingData();
+        showSuccessImage(bookingImage);
     }
 
     private Customer checkExists(String name, String contact){
@@ -390,9 +477,16 @@ public class SplashController{
 
         feedbackRepoistory.add(feedback);
 
-        feedbackImage.setVisible(true);
         userFeedback.clear();
         userRating.clear();
+
+        showSuccessImage(feedbackImage);
+    }
+
+
+    public void showSuccessImage(final ImageView image){
+
+        image.setVisible(true);
 
         Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(2),
@@ -400,7 +494,7 @@ public class SplashController{
 
                 @Override
                 public void handle(ActionEvent event) {
-                    feedbackImage.setVisible(false);
+                    image.setVisible(false);
                 }
             }));
         timeline.play();
