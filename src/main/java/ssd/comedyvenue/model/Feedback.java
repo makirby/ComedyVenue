@@ -57,6 +57,6 @@ public class Feedback {
 
     @Override
     public String toString(){
-        return this.rating + "/5 " + this.comments;
+        return this.rating + "/5, " + this.comments;
     }
 }
