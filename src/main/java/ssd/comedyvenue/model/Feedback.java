@@ -54,4 +54,9 @@ public class Feedback {
     public void setRating(Integer rating) {
         this.rating = rating;
     }
+
+    @Override
+    public String toString(){
+        return this.rating + "/5 " + this.comments;
+    }
 }
