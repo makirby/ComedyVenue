@@ -50,7 +50,6 @@ public class FeedbackRepository implements Repository<Feedback> {
         }
     }
 
-
     public Feedback getById(int id){
 
         try {
